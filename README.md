@@ -173,6 +173,8 @@ Giph_Sleep_S=5
 
 This project is provided as-is for use with Streamer.bot. Please ensure compliance with Giphy's terms of service when using their API.
 
+I'm a small streamer who likes to Code so if you will use this code, please give some kind of contribution/shoutout to ArnieTW @Twtich.tv to help me with making content!~
+
 ## 🤝 Contributing
 
 Feel free to submit issues, feature requests, or improvements to enhance this Giphy integration for the Streamer.bot community.
