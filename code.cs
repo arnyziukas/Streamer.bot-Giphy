@@ -15,6 +15,7 @@ public class CPHInline
 
     private string FRating, FDefaultGif;
     private int FPosX = -1, FPosY = -1, FMaxX = 1, FMaxY = 1, FSleepSeconds;
+    private static Random FRandom = new Random();
 
     private Func<int> FGetXPosition, FGetYPosition;
 
@@ -316,25 +317,22 @@ public class CPHInline
             return null;
         }
     }
-    private int GetRandomPosition(int x)
-    {
-        Random rand = new Random();
-        return rand.Next(0, x);
-    }
     private int centerOnPosition(int size, PositionType positionType)
     {
         switch (positionType)
         {
             case PositionType.ptX:
-                int CentreLocation = FGetXPosition() - (size / 2);
-                if (CentreLocation - (size / 2) < 0) return 0;
-                else if (CentreLocation + (size / 2) > FMaxX) return FMaxX - size;
-                else return CentreLocation;
+                int centerX = FGetXPosition();
+                int topLeftX = centerX - (size / 2);
+                if (topLeftX < 0) return 0;
+                else if (topLeftX + size > FMaxX) return FMaxX - size;
+                else return topLeftX;
             case PositionType.ptY:
-                CentreLocation = FGetYPosition() - (size / 2);
-                if (CentreLocation - (size / 2) < 0) return 0;
-                else if (CentreLocation + (size / 2) > FMaxY) return FMaxY - size;
-                else return CentreLocation;
+                int centerY = FGetYPosition();
+                int topLeftY = centerY - (size / 2);
+                if (topLeftY < 0) return 0;
+                else if (topLeftY + size > FMaxY) return FMaxY - size;
+                else return topLeftY;
             default:
                 return 0;
         }
@@ -349,10 +347,6 @@ public class CPHInline
             int canvasHeight = (int)videoSettings["baseHeight"];
             FMaxX = canvasWidth;
             FMaxY = canvasHeight;
-            if (FPosX == -1)
-                FPosX = FMaxX;
-            if (FPosY == -1)
-                FPosY = FMaxY;
         }
     }
     public void Init()
@@ -366,12 +360,12 @@ public class CPHInline
         FSleepSeconds = GetGlobalVariable<int>("Giph_Sleep_S", true, 5);
 
         if (FPosX == -1)
-            FGetXPosition = () => GetRandomPosition(FMaxX); // Default width
+            FGetXPosition = () => FRandom.Next(0, FMaxX); // Default width
         else
             FGetXPosition = () => FPosX;
 
         if (FPosY == -1)
-            FGetYPosition = () => GetRandomPosition(FMaxY); // Default height
+            FGetYPosition = () => FRandom.Next(0, FMaxY); // Default height
         else
             FGetYPosition = () => FPosY;
         initializeOBS();
